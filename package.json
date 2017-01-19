@@ -1,0 +1,11 @@
+{
+    "name":"reactcourse",
+    "version":"1.0.0",
+    "description":"React course",
+    "main":"index.html",
+    "scripts":{
+        "start":"node server.js"
+        },
+    "author":"chuckis",
+    "license":"MIT"
+}
