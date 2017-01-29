@@ -1,19 +1,19 @@
-// var my_news = [
-//     {
-//         author: 'Саша Пушкин',
-//         text: ' Я помню...'
-//     },
-//     {
-//         author: 'Колесо обозрения',
-//         text: 'Меня снесли в пункт стеклотары'
-//     },
-//     {
-//         author: 'Бродяга',
-//         text: 'Бананов не надо а'
-//     }
-// ];
+var my_news = [
+    {
+        author: 'Саша Пушкин',
+        text: ' Я помню...'
+    },
+    {
+        author: 'Колесо обозрения',
+        text: 'Меня снесли в пункт стеклотары'
+    },
+    {
+        author: 'Бродяга',
+        text: 'Бананов не надо а'
+    }
+];
 
-var my_news = [];
+//var my_news = [];
 
 var News = React.createClass({
     render: function(){
@@ -22,14 +22,11 @@ var News = React.createClass({
 
         if( data.length >0 ){
             newsTemplate = data.map(function(item, index){
-
-                return (
-                        <div key = {index}>
-                        <p className="news__author">{item.author}: </p>
-                        <p className="news__text">{item.text}</p>
-                        </div>
-                );
-
+                  return (
+                          <div key ={index}>
+                          <Article data = {item}/>
+                          </div>
+);
             });
         } else {
             newsTemplate = <p>Новостеей нет </p>;
@@ -41,32 +38,37 @@ var News = React.createClass({
         return (
                 <div className="news">
                 {newsTemplate}
-            <strong className = {data.length > 0 ? '' : 'none'}>Всего новостей: {data.length}</strong>
+            <strong className = { 'news__count' + data.length > 0 ? '' : 'none'}>Всего новостей: {data.length}</strong>
             </div>
         );
     }
 });
 
-var Comments = React.createClass({
+var Article = React.createClass({
+    render: function(){
+        var author = this.props.data.author,
+            text = this.props.data.text;
+        return (
+            <div className = "article">
+                <p className = "news__author"> {author} : </p>
+                <p className = "news__text"> {text} </p>
+             </div>
+
+                );
+}
+});
+
+
+var App = React.createClass({
     render: function(){
         return (
-            <div className="comments">
-                Нет новостей - нечего комментировать...
+            <div className="app"> <h3>Новости</h3>
+            <News data={my_news} />
             </div>
                 );
     }
 });
 
-var App = React.createClass({
-    render: function(){
-        return (
-            <div className="app"> Привет я компонент App я могу отображать новости
-            <News data={my_news} />
-            <Comments/>
-            </div>
-                );
-    }
-});
 
 ReactDOM.render(
    <App />,
