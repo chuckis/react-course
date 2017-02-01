@@ -16,6 +16,10 @@ var my_news = [
 //var my_news = [];
 
 var News = React.createClass({
+    propTypes: {
+        data: React.PropTypes.array.isRequired //валидация новостных данных
+        },
+
     render: function(){
         var data = this.props.data;
         var newsTemplate;
@@ -38,13 +42,20 @@ var News = React.createClass({
         return (
                 <div className="news">
                 {newsTemplate}
-            <strong className = { 'news__count' + data.length > 0 ? '' : 'none'}>Всего новостей: {data.length}</strong>
+            <strong className = { 'news__count' + (data.length > 0 ? '' : 'none')}>Всего новостей: {data.length}</strong>
             </div>
         );
     }
 });
 
 var Article = React.createClass({
+    propTypes: {
+        data: React.PropTypes.shape({
+            author: React.PropTypes.string.isRequired,
+            text: React.PropTypes.string.isRequired
+})
+},
+
     render: function(){
         var author = this.props.data.author,
             text = this.props.data.text;
