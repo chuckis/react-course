@@ -1,15 +1,18 @@
 var my_news = [
     {
         author: 'Саша Пушкин',
-        text: ' Я помню...'
+        text: ' Я помню...',
+        bigText: 'Чудное мгновенье, передо мной'
     },
     {
         author: 'Колесо обозрения',
-        text: 'Меня снесли в пункт стеклотары'
+        text: 'Меня снесли в пункт стеклотары',
+        bigText: 'А его этот мост не построят николы'
     },
     {
         author: 'Бродяга',
-        text: 'Бананов не надо а'
+        text: 'Бананов не надо а',
+        bigText: 'Дайте лучше наличных:)'
     }
 ];
 
@@ -55,14 +58,31 @@ var Article = React.createClass({
             text: React.PropTypes.string.isRequired
 })
 },
+    getInitialState: function(){
+        return {
+            visible: false
+};
+},
+
+    readmoreClick: function(e){
+
+        e.preventDefault();
+        this.setState({visible: true});
+
+},
 
     render: function(){
         var author = this.props.data.author,
-            text = this.props.data.text;
+            text = this.props.data.text,
+            bigText = this.props.data.bigText,
+            visible = this.state.visible;
+
         return (
             <div className = "article">
                 <p className = "news__author"> {author} : </p>
                 <p className = "news__text"> {text} </p>
+                <a href="#" onClick = {this.readmoreClick} className={'news__readmore ' + (visible ? 'none': '')}> Подробнее </a>
+                <p className={'news__big-text ' + (visible ? '': 'none')}> {bigText} </p>
              </div>
 
                 );
