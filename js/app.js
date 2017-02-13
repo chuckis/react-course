@@ -60,7 +60,8 @@ var Article = React.createClass({
 },
     getInitialState: function(){
         return {
-            visible: false
+            visible: false,
+            rating: 0
 };
 },
 
