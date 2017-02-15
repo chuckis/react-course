@@ -98,9 +98,23 @@ console.log('render', this);
 });
 
 var TestInput = React.createClass({
+    onChangeHandler: function(e){
+        this.setState({myValue: e.target.value});
+    },
+
+    onBtnClickHandler: function(){
+        console.log(this.refs);
+        alert(ReactDOM.findDOMNode(this.refs.myTestInput).value);
+},
     render: function(){
         return (
-            <input className="test-input" value="введите значение" />
+            <div>
+            <input className="test-input"
+            defaultValue=''
+            placeholder = "введите значение"
+            ref='myTestInput'/>
+            <button onClick = {this.onBtnClickHandler} ref='alert-button'>показать алерт </button>
+            </div>
                 );
         }
 });
