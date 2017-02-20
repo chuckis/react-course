@@ -101,6 +101,9 @@ var TestInput = React.createClass({
     onChangeHandler: function(e){
         this.setState({myValue: e.target.value});
     },
+    componentDidMount: function(){//ставим фокус в инпут
+        ReactDOM.findDOMNode(this.refs.myTestInput).focus();
+},
 
     onBtnClickHandler: function(){
         console.log(this.refs);
