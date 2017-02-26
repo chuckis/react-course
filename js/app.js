@@ -98,16 +98,27 @@ console.log('render', this);
 });
 
 var Add = React.createClass({
+    getInitialState : function(){
+        return {
+            btnIsDisabled: true
+};
+},
     onChangeHandler: function(e){
         this.setState({myValue: e.target.value});
     },
+
+    onCheckRuleClick: function(e){
+        this.setState({btnIsDisabled: !this.state.btnIsDisabled});
+},
     componentDidMount: function(){//ставим фокус в инпут
         ReactDOM.findDOMNode(this.refs.author).focus();
 },
 
-    onBtnClickHandler: function(){
-        console.log(this.refs);
-        alert(ReactDOM.findDOMNode(this.refs.myAdd).value);
+    onBtnClickHandler: function(e){
+        e.preventDefault();
+        var author = ReactDOM.findDOMNode(this.refs.author).value;
+        var text = ReactDOM.findDOMNode(this.refs.text).value;
+        alert(author + '\n' + text);
 },
     render: function(){
         return (
@@ -126,14 +137,14 @@ var Add = React.createClass({
                 ref='text'></textarea>
 
                 <label className=''add__checkrule>
-                <input type='checkbox' defaultChecked={false} ref='checkrule'> Я согласен с правилами
+                <input type='checkbox' defaultChecked={false} ref='checkrule' onChange = {this.onCheckRuleClick}> Я согласен с правилами
             </input>
             </label>
 
             <button
             className='add__btn'
             onClick = {this.onBtnClickHandler}
-            ref='alert_button'>показать алерт </button>
+            ref='alert_button' disabled={this.state.btnIsDisabled}>показать алерт </button>
                 </form>
 
                 );
