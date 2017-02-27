@@ -100,15 +100,27 @@ console.log('render', this);
 var Add = React.createClass({
     getInitialState : function(){
         return {
-            btnIsDisabled: true
+            agreeNotChecked: true,
+            authorIsEmpty: true,
+            textIsEmpty: true
+
 };
 },
+
+    onFieldChange: function(fieldName, e) {
+        if( e.target.value.trim().length > 0 ){
+            this.setState({['' + fieldName]: false})
+        } else {
+            this.setState({['' + fieldName]: true})
+}
+},
+
     onChangeHandler: function(e){
         this.setState({myValue: e.target.value});
     },
 
     onCheckRuleClick: function(e){
-        this.setState({btnIsDisabled: !this.state.btnIsDisabled});
+        this.setState({agreeNotChecked: !this.state.agreeNotChecked});
 },
     componentDidMount: function(){//ставим фокус в инпут
         ReactDOM.findDOMNode(this.refs.author).focus();
@@ -121,18 +133,22 @@ var Add = React.createClass({
         alert(author + '\n' + text);
 },
     render: function(){
+        var agreeNotChecked=this.state.agreeNotChecked,
+            authorIsEmpty=this.state.authorIsEmpty,
+            textIsEmpty=this.state.textIsEmpty;
+
         return (
             <form className = "add_cf">
                 <input
             type = 'text'
             className="add__author"
-            defaultValue=''
+            onChange={this.onFieldChange.bind(this, 'authorIsEmpty')}
             placeholder = "Ваше имя"
             ref='author'
                 />
                 <textarea
                 className='add__text'
-                defaultValue=''
+                onChange={this.onFieldChange.bind(this, 'textIsEmpty')}
             placeholder="Текст новости"
                 ref='text'></textarea>
 
@@ -144,7 +160,7 @@ var Add = React.createClass({
             <button
             className='add__btn'
             onClick = {this.onBtnClickHandler}
-            ref='alert_button' disabled={this.state.btnIsDisabled}>показать алерт </button>
+            ref='alert_button' disabled={agreeNotChecked || authorIsEmpty || textIsEmpty}>показать алерт </button>
                 </form>
 
                 );
