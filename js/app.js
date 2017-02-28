@@ -18,6 +18,8 @@ var my_news = [
 
 //var my_news = [];
 
+window.ee = new EventEmitter();
+
 var News = React.createClass({
  //   var counter
     propTypes: {
@@ -128,9 +130,21 @@ var Add = React.createClass({
 
     onBtnClickHandler: function(e){
         e.preventDefault();
+
         var author = ReactDOM.findDOMNode(this.refs.author).value;
-        var text = ReactDOM.findDOMNode(this.refs.text).value;
-        alert(author + '\n' + text);
+        var textEl = ReactDOM.findDOMNode(this.refs.text);
+        var text = textEl.value;
+
+        var item =[{
+            author: author,
+            text: text,
+            bigText: '...  '
+}];
+
+        window.ee.emit('News.add', item);
+
+        textEl.value = '';
+        this.setState({textIsEmpty: true});
 },
     render: function(){
         var agreeNotChecked=this.state.agreeNotChecked,
@@ -160,7 +174,7 @@ var Add = React.createClass({
             <button
             className='add__btn'
             onClick = {this.onBtnClickHandler}
-            ref='alert_button' disabled={agreeNotChecked || authorIsEmpty || textIsEmpty}>показать алерт </button>
+            ref='alert_button' disabled={agreeNotChecked || authorIsEmpty || textIsEmpty}> Добавить новость </button>
                 </form>
 
                 );
@@ -169,11 +183,33 @@ var Add = React.createClass({
 
 
 var App = React.createClass({
+
+    getInitialState: function(){
+        return{
+            news: my_news
+};
+},
+
+    componentDidMount: function(){
+        //слушаем соббытие "создана новость, если да то обновляем состояние"
+
+        var self = this;
+        window.ee.addListener('News.add', function(item){
+            var nextNews = item.concat(self.state.news);
+            self.setState({news: nextNews});
+});
+},
+
+    componentWillUnmount: function(){
+        //больше не слушаем событие "созздана новость"
+        window.ee.removeListener('News.add');
+},
+
     render: function(){
         return (
             <div className="app"> <h3>Новости</h3>
                 <Add />
-            <News data={my_news} />
+            <News data={this.state.news}/>
             </div>
                 );
     }
